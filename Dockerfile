@@ -11,9 +11,9 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Establecer las variables de entorno para la conexión a la base de datos
-ENV DB_HOST 3.139.107.26
+ENV DB_HOST database-screenspace-instance-1.cfo9syysrsej.us-east-2.rds.amazonaws.com
 ENV DB_PORT 3306
-ENV DB_NAME database-screenspace
+ENV DB_NAME screenspace
 ENV DB_USER admin
 ENV DB_PASSWORD screenspace
 

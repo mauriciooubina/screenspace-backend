@@ -7,9 +7,9 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DB_HOST=3.139.107.26
+      - DB_HOST=database-screenspace-instance-1.cfo9syysrsej.us-east-2.rds.amazonaws.com
       - DB_PORT=3306
-      - DB_NAME=database-screenspace
+      - DB_NAME=screenspace
       - DB_USER=admin
       - DB_PASSWORD=screenspace
     depends_on:
@@ -18,6 +18,6 @@ services:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=screenspace
-      - MYSQL_DATABASE=database-screenspace
+      - MYSQL_DATABASE=screenspace
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=screenspace
