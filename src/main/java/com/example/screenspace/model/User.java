@@ -1,11 +1,12 @@
-package io.swagger.model;
+package com.example.screenspace.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.*;
 
 /**
@@ -14,14 +15,18 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 
-
+@Entity
 public class User   {
+  @Id
+  @NotNull
   @JsonProperty("id")
   private Integer id = null;
 
+  @NotNull
   @JsonProperty("email")
   private String email = null;
 
+  @NotNull
   @JsonProperty("password")
   private String password = null;
 
