@@ -21,4 +21,5 @@ ENV DB_PASSWORD screenspace
 EXPOSE 8080
 
 # Comando para iniciar la aplicación
-CMD ["java", "-cp", "target/classes", "com.example.screenspace.ScreenspaceApplication"]
+CMD ["java", "-jar", "target/swagger-spring-1.0.0.jar"]
+
