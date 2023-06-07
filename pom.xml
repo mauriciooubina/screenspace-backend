@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>2.1.16.RELEASE</version>
+            <version>3.1.0</version>
         </dependency>
 
         <dependency>
