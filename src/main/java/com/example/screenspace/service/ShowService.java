@@ -9,40 +9,48 @@ import java.util.Optional;
 
 @Service
 public class ShowService {
-    private final ShowRepository ShowRepository;
+    private final ShowRepository showRepository;
 
     @Autowired
     public ShowService(ShowRepository ShowRepository) {
-        this.ShowRepository = ShowRepository;
+        this.showRepository = ShowRepository;
     }
 
     public List<Show> getAllShows() {
-        return ShowRepository.findAll();
+        return showRepository.findAll();
     }
 
     public Optional<Show> getShowById(Integer showId) {
-        return ShowRepository.findById(showId);
+        return showRepository.findById(showId);
     }
 
     public Show createShow(Show Show) {
-        return ShowRepository.save(Show);
+        return showRepository.save(Show);
     }
 
     public Show updateShow(Integer showId, Show updatedShow) {
-        Optional<Show> existingShow = ShowRepository.findById(showId);
+        Optional<Show> existingShow = showRepository.findById(showId);
         if (existingShow.isPresent()) {
             updatedShow.setId(showId);
-            return ShowRepository.save(updatedShow);
+            return showRepository.save(updatedShow);
         }
         return null;
     }
 
     public boolean deleteShow(Integer showId) {
-        Optional<Show> existingShow = ShowRepository.findById(showId);
+        Optional<Show> existingShow = showRepository.findById(showId);
         if (existingShow.isPresent()) {
-            ShowRepository.delete(existingShow.get());
+            showRepository.delete(existingShow.get());
             return true;
         }
         return false;
+    }
+
+    public List<Show> getAllShowsByCinemaAndTheaterId(Integer cinemaId, Integer theaterId) {
+        return showRepository.findAllByCinemaAndTheaterId(cinemaId, theaterId);
+    }
+
+    public List<Show> getAllShowsByMovieAndCinemaId(Integer movieId, Integer cinemaId) {
+        return showRepository.findAllByMovieAndCinemaId(movieId, cinemaId);
     }
 }

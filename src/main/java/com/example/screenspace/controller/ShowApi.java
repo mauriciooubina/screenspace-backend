@@ -69,7 +69,7 @@ public interface ShowApi {
             produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Show body);
 
@@ -82,10 +82,10 @@ public interface ShowApi {
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows/{showId}",
             produces = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("showId") Integer showId);
+    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("showId") Integer showId, @RequestBody Show body);
 
 
     @Operation(summary = "Delete a show for a movie theater", description = "", tags={ "Shows" })

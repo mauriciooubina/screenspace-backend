@@ -42,106 +42,84 @@ public class ShowApiController implements ShowApi {
     }
 
 
-    public ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("theaterId") Integer theaterId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Show>>(objectMapper.readValue("[ {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}, {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Show>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+            List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
+            return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<List<Show>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("showId") Integer showId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Show>(objectMapper.readValue("{\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}", Show.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Show>(HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
+        for (Show show : shows) {
+            if (show.getId().equals(showId)) {
+                return new ResponseEntity<>(show, HttpStatus.OK);
             }
         }
-
-        return new ResponseEntity<Show>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Show body) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Show>>(objectMapper.readValue("[ {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}, {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Show>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<List<Show>>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody Show body) {
+        Show show = new Show();
+        show.setCinemaID(cinemaId);
+        show.setTheaterId(theaterId);
+        show.setDate(body.getDate());
+        show.setTime(body.getTime());
+        show.setMovieId(body.getMovieId());
+        show.setSeats(body.getSeats());
+        showService.createShow(show);
+        return new ResponseEntity<>(show, HttpStatus.CREATED);
     }
 
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("showId") Integer showId, @RequestBody Show body)  {
+        Show show = showService.getShowById(showId).get();
+        show.setCinemaID(cinemaId);
+        show.setTheaterId(theaterId);
+        show.setDate(body.getDate());
+        show.setTime(body.getTime());
+        show.setMovieId(body.getMovieId());
+        show.setSeats(body.getSeats());
+        showService.updateShow(show.getId(), show);
+        return new ResponseEntity<>(show, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("showId") Integer showId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Show>(objectMapper.readValue("{\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}", Show.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Show>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+            Show show = showService.getShowById(showId).get();
+            showService.deleteShow(showId);
+            return new ResponseEntity<>(show, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<Show>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("showId") Integer showId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Show>(objectMapper.readValue("{\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}", Show.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Show>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<Show>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 
-    public ResponseEntity<List<Show>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("movieId") Integer movieId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<List<Show>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("movieId") Integer movieId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Show>>(objectMapper.readValue("[ {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n}, {\n  \"date\" : \"14/05/2023\",\n  \"cinemaID\" : 5,\n  \"theaterId\" : 6,\n  \"movieId\" : 1,\n  \"id\" : 11,\n  \"time\" : \"19:30\",\n  \"seats\" : [ \"seats\", \"seats\" ]\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Show>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+            List<Show> shows = showService.getAllShowsByMovieAndCinemaId(movieId, cinemaId);
+            return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<List<Show>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 

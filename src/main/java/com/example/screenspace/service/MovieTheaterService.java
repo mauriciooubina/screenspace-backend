@@ -9,40 +9,44 @@ import java.util.Optional;
 
 @Service
 public class MovieTheaterService {
-    private final MovieTheaterRepository MovieTheaterRepository;
+    private final MovieTheaterRepository movieTheaterRepository;
 
     @Autowired
     public MovieTheaterService(MovieTheaterRepository MovieTheaterRepository) {
-        this.MovieTheaterRepository = MovieTheaterRepository;
+        this.movieTheaterRepository = MovieTheaterRepository;
     }
 
     public List<MovieTheater> getAllMovieTheaters() {
-        return MovieTheaterRepository.findAll();
+        return movieTheaterRepository.findAll();
     }
 
     public Optional<MovieTheater> getMovieTheaterById(Integer movieTheaterId) {
-        return MovieTheaterRepository.findById(movieTheaterId);
+        return movieTheaterRepository.findById(movieTheaterId);
     }
 
     public MovieTheater createMovieTheater(MovieTheater MovieTheater) {
-        return MovieTheaterRepository.save(MovieTheater);
+        return movieTheaterRepository.save(MovieTheater);
     }
 
     public MovieTheater updateMovieTheater(Integer movieTheaterId, MovieTheater updatedMovieTheater) {
-        Optional<MovieTheater> existingMovieTheater = MovieTheaterRepository.findById(movieTheaterId);
+        Optional<MovieTheater> existingMovieTheater = movieTheaterRepository.findById(movieTheaterId);
         if (existingMovieTheater.isPresent()) {
             updatedMovieTheater.setId(movieTheaterId);
-            return MovieTheaterRepository.save(updatedMovieTheater);
+            return movieTheaterRepository.save(updatedMovieTheater);
         }
         return null;
     }
 
     public boolean deleteMovieTheater(Integer movieTheaterId) {
-        Optional<MovieTheater> existingMovieTheater = MovieTheaterRepository.findById(movieTheaterId);
+        Optional<MovieTheater> existingMovieTheater = movieTheaterRepository.findById(movieTheaterId);
         if (existingMovieTheater.isPresent()) {
-            MovieTheaterRepository.delete(existingMovieTheater.get());
+            movieTheaterRepository.delete(existingMovieTheater.get());
             return true;
         }
         return false;
+    }
+
+    public List<MovieTheater> getAllMovieTheatersFromCinemaId(Integer cinemaId) {
+        return movieTheaterRepository.findAllByCinemaId(cinemaId);
     }
 }

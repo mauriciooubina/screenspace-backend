@@ -66,8 +66,8 @@ public interface MovieTheaterApi {
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-)) @PathVariable("cinemaId") Integer cinemaId);
+    ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterPost(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = { }, minimum = "1"))
+    @PathVariable("cinemaId") Integer cinemaId, @Valid @RequestBody MovieTheater body) ;
 
 
     @Operation(summary = "Edit a movie theater from id", description = "", tags={ "Movie Theater" })
@@ -78,9 +78,9 @@ public interface MovieTheaterApi {
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}",
             produces = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdPut(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId);
+    ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("cinemaId") Integer cinemaId,@RequestBody MovieTheater body) ;
 
 
     @Operation(summary = "Delete a movie theater from id", description = "", tags={ "Movie Theater" })

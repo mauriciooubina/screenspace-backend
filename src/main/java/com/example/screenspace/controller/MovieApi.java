@@ -44,6 +44,7 @@ public interface MovieApi {
             method = RequestMethod.GET)
     ResponseEntity<List<Movie>> movieGet();
 
+
     @Operation(summary = "Get a movie from id", description = "", tags={ "Movies" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))),
@@ -56,7 +57,7 @@ public interface MovieApi {
     )) @PathVariable("movieId") Integer movieId);
 
 
-    @Operation(summary = "Get list of all movies from movie-thetear", description = "", tags={ "Movie" })
+    @Operation(summary = "Get list of all movies from movie-theater", description = "", tags={ "Movie" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Movie.class)))),
 
@@ -70,7 +71,7 @@ public interface MovieApi {
     )) @PathVariable("showId") Integer showId);
 
 
-    @Operation(summary = "Get a movie id from movie-thetear", description = "", tags={ "Movie" })
+    @Operation(summary = "Get a movie id from movie-theater", description = "", tags={ "Movie" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Movie.class))),
 

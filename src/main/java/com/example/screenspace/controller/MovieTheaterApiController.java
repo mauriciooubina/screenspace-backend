@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
@@ -42,84 +43,76 @@ public class MovieTheaterApiController implements MovieTheaterApi {
         this.movieTheaterService = movieTheaterService;
     }
 
-    public ResponseEntity<List<MovieTheater>> cinemaCinemaIdMovieTheaterGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<List<MovieTheater>> cinemaCinemaIdMovieTheaterGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<MovieTheater>>(objectMapper.readValue("[ {\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n}, {\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<MovieTheater>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+            List<MovieTheater> movieTheaters = movieTheaterService.getAllMovieTheatersFromCinemaId(cinemaId);
+            return new ResponseEntity<>(movieTheaters, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<List<MovieTheater>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<MovieTheater>(objectMapper.readValue("{\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n}", MovieTheater.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<MovieTheater>(HttpStatus.INTERNAL_SERVER_ERROR);
+        List<MovieTheater> movieTheaters = movieTheaterService.getAllMovieTheatersFromCinemaId(cinemaId);
+        for (MovieTheater movieTheater : movieTheaters) {
+            if (movieTheater.getId().equals(theaterId)) {
+                return new ResponseEntity<>(movieTheater, HttpStatus.OK);
             }
         }
-
-        return new ResponseEntity<MovieTheater>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<MovieTheater>(objectMapper.readValue("{\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n}", MovieTheater.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<MovieTheater>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterPost(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+                                                                       @PathVariable("cinemaId") Integer cinemaId, @Valid @RequestBody MovieTheater body) {
+        try {
+            MovieTheater movieTheater = new MovieTheater();
+            movieTheater.setCinemaID(cinemaId);
+            movieTheater.setName(body.getName());
+            movieTheater.setRows(body.getRows());
+            movieTheater.setColumns(body.getColumns());
+            movieTheater.setPrice(body.getPrice());
+            movieTheater.setTemporalyClosed(body.isTemporalyClosed());
+            movieTheaterService.createMovieTheater(movieTheater);
+            return new ResponseEntity<>(movieTheater, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<MovieTheater>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 
-
-    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdPut(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<MovieTheater>(objectMapper.readValue("{\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n}", MovieTheater.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<MovieTheater>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    @PathVariable("cinemaId") Integer cinemaId,@RequestBody MovieTheater body) {
+        try {
+            MovieTheater movieTheater = movieTheaterService.getMovieTheaterById(theaterId).get();
+            movieTheater.setCinemaID(cinemaId);
+            movieTheater.setName(body.getName());
+            movieTheater.setRows(body.getRows());
+            movieTheater.setColumns(body.getColumns());
+            movieTheater.setPrice(body.getPrice());
+            movieTheater.setTemporalyClosed(body.isTemporalyClosed());
+            movieTheaterService.updateMovieTheater(theaterId, movieTheater);
+            return new ResponseEntity<>(movieTheater, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<MovieTheater>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId,@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    public ResponseEntity<MovieTheater> cinemaCinemaIdMovieTheaterTheaterIdDelete(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<MovieTheater>(objectMapper.readValue("{\n  \"temporalyClosed\" : false,\n  \"cinemaID\" : 1,\n  \"columns\" : 8,\n  \"price\" : 500,\n  \"name\" : \"Sala 01 Multiplex Belgrano\",\n  \"id\" : 11,\n  \"rows\" : 8\n}", MovieTheater.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<MovieTheater>(HttpStatus.INTERNAL_SERVER_ERROR);
+        List<MovieTheater> movieTheaters = movieTheaterService.getAllMovieTheatersFromCinemaId(cinemaId);
+        for (MovieTheater movieTheater : movieTheaters) {
+            if (movieTheater.getId().equals(theaterId)) {
+                MovieTheater movieTheater1 = movieTheater;
+                movieTheaterService.deleteMovieTheater(movieTheater.getId());
+                return new ResponseEntity<>(movieTheater1, HttpStatus.OK);
             }
         }
-
-        return new ResponseEntity<MovieTheater>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
