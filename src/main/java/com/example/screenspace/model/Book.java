@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -21,7 +20,7 @@ import javax.validation.constraints.*;
 @Entity
 public class Book   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
@@ -34,8 +33,8 @@ public class Book   {
   @JsonProperty("cinemaId")
   private Integer cinemaId = null;
 
-  @JsonProperty("showID")
-  private Integer showID = null;
+  @JsonProperty("showId")
+  private Integer showId = null;
 
   @JsonProperty("date")
   private String date = null;
@@ -46,6 +45,7 @@ public class Book   {
   @JsonProperty("tickets")
   private Integer tickets = null;
 
+  @ElementCollection
   @JsonProperty("seats")
   @Valid
   private List<Integer> seats = new ArrayList<Integer>();
@@ -108,24 +108,24 @@ public class Book   {
     this.cinemaId = cinemaId;
   }
 
-  public Book showID(Integer showID) {
-    this.showID = showID;
+  public Book showId(Integer showId) {
+    this.showId = showId;
     return this;
   }
 
   /**
-   * Get showID
-   * @return showID
+   * Get showId
+   * @return showId
    **/
   @Schema(example = "11", required = true, description = "")
       @NotNull
 
-    public Integer getShowID() {
-    return showID;
+    public Integer getShowId() {
+    return showId;
   }
 
-  public void setShowID(Integer showID) {
-    this.showID = showID;
+  public void setShowId(Integer showId) {
+    this.showId = showId;
   }
 
   public Book date(String date) {
@@ -225,7 +225,7 @@ public class Book   {
     Book book = (Book) o;
     return Objects.equals(this.userId, book.userId) &&
         Objects.equals(this.cinemaId, book.cinemaId) &&
-        Objects.equals(this.showID, book.showID) &&
+        Objects.equals(this.showId, book.showId) &&
         Objects.equals(this.date, book.date) &&
         Objects.equals(this.time, book.time) &&
         Objects.equals(this.tickets, book.tickets) &&
@@ -234,7 +234,7 @@ public class Book   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, cinemaId, showID, date, time, tickets, seats);
+    return Objects.hash(userId, cinemaId, showId, date, time, tickets, seats);
   }
 
   @Override
@@ -244,7 +244,7 @@ public class Book   {
     
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    cinemaId: ").append(toIndentedString(cinemaId)).append("\n");
-    sb.append("    showID: ").append(toIndentedString(showID)).append("\n");
+    sb.append("    showID: ").append(toIndentedString(showId)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    time: ").append(toIndentedString(time)).append("\n");
     sb.append("    tickets: ").append(toIndentedString(tickets)).append("\n");

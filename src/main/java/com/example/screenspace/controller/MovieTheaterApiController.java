@@ -49,6 +49,7 @@ public class MovieTheaterApiController implements MovieTheaterApi {
             List<MovieTheater> movieTheaters = movieTheaterService.getAllMovieTheatersFromCinemaId(cinemaId);
             return new ResponseEntity<>(movieTheaters, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -78,6 +79,7 @@ public class MovieTheaterApiController implements MovieTheaterApi {
             movieTheaterService.createMovieTheater(movieTheater);
             return new ResponseEntity<>(movieTheater, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -97,6 +99,7 @@ public class MovieTheaterApiController implements MovieTheaterApi {
             movieTheaterService.updateMovieTheater(theaterId, movieTheater);
             return new ResponseEntity<>(movieTheater, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

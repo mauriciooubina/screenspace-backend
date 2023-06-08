@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,15 +22,15 @@ import javax.validation.constraints.*;
 @Entity
 public class Review   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
   @JsonProperty("userId")
   private Integer userId = null;
 
-  @JsonProperty("movieID")
-  private Integer movieID = null;
+  @JsonProperty("movieId")
+  private Integer movieId = null;
 
   @JsonProperty("rating")
   private BigDecimal rating = null;
@@ -46,7 +48,6 @@ public class Review   {
    * @return id
    **/
   @Schema(example = "11", required = true, description = "")
-      @NotNull
 
     public Integer getId() {
     return id;
@@ -76,24 +77,24 @@ public class Review   {
     this.userId = userId;
   }
 
-  public Review movieID(Integer movieID) {
-    this.movieID = movieID;
+  public Review movieId(Integer movieId) {
+    this.movieId = movieId;
     return this;
   }
 
   /**
-   * Get movieID
-   * @return movieID
+   * Get movieId
+   * @return movieId
    **/
   @Schema(example = "3", required = true, description = "")
       @NotNull
 
     public Integer getMovieID() {
-    return movieID;
+    return movieId;
   }
 
-  public void setMovieID(Integer movieID) {
-    this.movieID = movieID;
+  public void setMovieId(Integer movieId) {
+    this.movieId = movieId;
   }
 
   public Review rating(BigDecimal rating) {
@@ -149,14 +150,14 @@ public class Review   {
     Review review = (Review) o;
     return Objects.equals(this.id, review.id) &&
         Objects.equals(this.userId, review.userId) &&
-        Objects.equals(this.movieID, review.movieID) &&
+        Objects.equals(this.movieId, review.movieId) &&
         Objects.equals(this.rating, review.rating) &&
         Objects.equals(this.opinion, review.opinion);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userId, movieID, rating, opinion);
+    return Objects.hash(id, userId, movieId, rating, opinion);
   }
 
   @Override
@@ -166,7 +167,7 @@ public class Review   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    movieID: ").append(toIndentedString(movieID)).append("\n");
+    sb.append("    movieID: ").append(toIndentedString(movieId)).append("\n");
     sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
     sb.append("    opinion: ").append(toIndentedString(opinion)).append("\n");
     sb.append("}");

@@ -46,11 +46,11 @@ public class ShowService {
         return false;
     }
 
-    public List<Show> getAllShowsByCinemaAndTheaterId(Integer cinemaId, Integer theaterId) {
-        return showRepository.findAllByCinemaAndTheaterId(cinemaId, theaterId);
+    public List<Show> getAllShowsByCinemaAndTheaterId(Integer cinemaID, Integer theaterId) {
+        return showRepository.findAllByCinemaIdAndTheaterId(cinemaID, theaterId);
     }
 
-    public List<Show> getAllShowsByMovieAndCinemaId(Integer movieId, Integer cinemaId) {
-        return showRepository.findAllByMovieAndCinemaId(movieId, cinemaId);
+    public List<Show> getAllShowsByMovieAndCinemaId(Integer movieId, Integer cinemaID) {
+        return showRepository.findAllByMovieIdAndCinemaId(movieId, cinemaID);
     }
 }

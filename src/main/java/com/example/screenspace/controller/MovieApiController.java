@@ -52,6 +52,7 @@ public class MovieApiController implements MovieApi {
             List<Movie> movies = movieService.getAllMovies();
             return new ResponseEntity<>(movies, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,6 +64,7 @@ public class MovieApiController implements MovieApi {
             Optional<Movie> movie = movieService.getMovieById(movieId);
             return new ResponseEntity<Movie>(movie.get(), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -85,6 +87,7 @@ public class MovieApiController implements MovieApi {
             }
             return new ResponseEntity<>(movies, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

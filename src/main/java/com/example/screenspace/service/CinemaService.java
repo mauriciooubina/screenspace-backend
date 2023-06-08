@@ -21,10 +21,6 @@ public class CinemaService {
         return cinemaRepository.findAll();
     }
 
-    public List<Cinema> getCinemasFromMovieId(int movieId) {
-        return cinemaRepository.findAllByMovieId(movieId);
-    }
-
     public Optional<Cinema> getCinemaById(Integer cinemaId) {
         return cinemaRepository.findById(cinemaId);
     }

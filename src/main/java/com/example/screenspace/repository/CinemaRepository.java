@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Integer> {
 
-    List<Cinema> findAllByMovieId(int movieId);
 }

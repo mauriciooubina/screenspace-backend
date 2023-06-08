@@ -49,6 +49,7 @@ public class ShowApiController implements ShowApi {
             List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
             return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
         }
     }
@@ -118,6 +119,7 @@ public class ShowApiController implements ShowApi {
             List<Show> shows = showService.getAllShowsByMovieAndCinemaId(movieId, cinemaId);
             return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
         }
     }

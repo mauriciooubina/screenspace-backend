@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Integer> {
 
-    List<Show> findAllByCinemaAndTheaterId(Integer cinemaId, Integer theaterId);
+    List<Show> findAllByCinemaIdAndTheaterId(Integer cinemaID, Integer theaterId);
 
-    List<Show> findAllByMovieAndCinemaId(Integer movieId, Integer cinemaId);
+    List<Show> findAllByMovieIdAndCinemaId(Integer movieId, Integer cinemaID);
 }

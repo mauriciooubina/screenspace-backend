@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,12 +22,12 @@ import javax.validation.constraints.*;
 @Entity
 public class MovieTheater   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
-  @JsonProperty("cinemaID")
-  private Integer cinemaID = null;
+  @JsonProperty("cinemaId")
+  private Integer cinemaId = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -52,7 +54,6 @@ public class MovieTheater   {
    * @return id
    **/
   @Schema(example = "11", required = true, description = "")
-      @NotNull
 
     public Integer getId() {
     return id;
@@ -62,24 +63,24 @@ public class MovieTheater   {
     this.id = id;
   }
 
-  public MovieTheater cinemaID(Integer cinemaID) {
-    this.cinemaID = cinemaID;
+  public MovieTheater cinemaId(Integer cinemaId) {
+    this.cinemaId = cinemaId;
     return this;
   }
 
   /**
-   * Get cinemaID
-   * @return cinemaID
+   * Get cinemaId
+   * @return cinemaId
    **/
   @Schema(example = "1", required = true, description = "")
       @NotNull
 
-    public Integer getCinemaID() {
-    return cinemaID;
+    public Integer getCinemaId() {
+    return cinemaId;
   }
 
-  public void setCinemaID(Integer cinemaID) {
-    this.cinemaID = cinemaID;
+  public void setCinemaID(Integer cinemaId) {
+    this.cinemaId = cinemaId;
   }
 
   public MovieTheater name(String name) {
@@ -196,7 +197,7 @@ public class MovieTheater   {
     }
     MovieTheater movieTheater = (MovieTheater) o;
     return Objects.equals(this.id, movieTheater.id) &&
-        Objects.equals(this.cinemaID, movieTheater.cinemaID) &&
+        Objects.equals(this.cinemaId, movieTheater.cinemaId) &&
         Objects.equals(this.name, movieTheater.name) &&
         Objects.equals(this.rows, movieTheater.rows) &&
         Objects.equals(this.columns, movieTheater.columns) &&
@@ -206,7 +207,7 @@ public class MovieTheater   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cinemaID, name, rows, columns, price, temporalyClosed);
+    return Objects.hash(id, cinemaId, name, rows, columns, price, temporalyClosed);
   }
 
   @Override
@@ -215,7 +216,7 @@ public class MovieTheater   {
     sb.append("class MovieTheater {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cinemaID: ").append(toIndentedString(cinemaID)).append("\n");
+    sb.append("    cinemaID: ").append(toIndentedString(cinemaId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    rows: ").append(toIndentedString(rows)).append("\n");
     sb.append("    columns: ").append(toIndentedString(columns)).append("\n");

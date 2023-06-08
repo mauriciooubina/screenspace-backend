@@ -52,7 +52,7 @@ public class ReviewApiController implements ReviewApi {
     public ResponseEntity<Void> moviesMovieIdReviewsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
 )) @PathVariable("movieId") Integer movieId,@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Review body) {
         Review review = new Review();
-        review.setMovieID(movieId);
+        review.setMovieId(movieId);
         review.setOpinion(body.getOpinion());
         review.setRating(body.getRating());
         review.setUserId(body.getUserId());

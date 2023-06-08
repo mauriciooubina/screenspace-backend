@@ -44,6 +44,7 @@ public class UsersApiController implements UsersApi {
             List<User> users = usersService.getAllUsers();
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,6 +55,7 @@ public class UsersApiController implements UsersApi {
             Optional<User> user = usersService.getUserById(userId);
             return new ResponseEntity<User>(user.get(), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -70,6 +72,7 @@ public class UsersApiController implements UsersApi {
             usersService.createUser(newUser);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

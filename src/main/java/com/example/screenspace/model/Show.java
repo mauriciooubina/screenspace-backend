@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -21,12 +20,12 @@ import javax.validation.constraints.*;
 @Entity
 public class Show   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
-  @JsonProperty("cinemaID")
-  private Integer cinemaID = null;
+  @JsonProperty("cinemaId")
+  private Integer cinemaId = null;
 
   @JsonProperty("theaterId")
   private Integer theaterId = null;
@@ -41,6 +40,7 @@ public class Show   {
   private Integer movieId = null;
 
   @JsonProperty("seats")
+  @ElementCollection
   @Valid
   private List<String> seats = new ArrayList<String>();
 
@@ -54,7 +54,6 @@ public class Show   {
    * @return id
    **/
   @Schema(example = "11", required = true, description = "")
-      @NotNull
 
     public Integer getId() {
     return id;
@@ -64,24 +63,24 @@ public class Show   {
     this.id = id;
   }
 
-  public Show cinemaID(Integer cinemaID) {
-    this.cinemaID = cinemaID;
+  public Show cinemaId(Integer cinemaId) {
+    this.cinemaId = cinemaId;
     return this;
   }
 
   /**
-   * Get cinemaID
-   * @return cinemaID
+   * Get cinemaId
+   * @return cinemaId
    **/
   @Schema(example = "5", required = true, description = "")
       @NotNull
 
-    public Integer getCinemaID() {
-    return cinemaID;
+    public Integer getCinemaId() {
+    return cinemaId;
   }
 
-  public void setCinemaID(Integer cinemaID) {
-    this.cinemaID = cinemaID;
+  public void setCinemaID(Integer cinemaId) {
+    this.cinemaId = cinemaId;
   }
 
   public Show theaterId(Integer theaterId) {
@@ -200,7 +199,7 @@ public class Show   {
     }
     Show show = (Show) o;
     return Objects.equals(this.id, show.id) &&
-        Objects.equals(this.cinemaID, show.cinemaID) &&
+        Objects.equals(this.cinemaId, show.cinemaId) &&
         Objects.equals(this.theaterId, show.theaterId) &&
         Objects.equals(this.date, show.date) &&
         Objects.equals(this.time, show.time) &&
@@ -210,7 +209,7 @@ public class Show   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cinemaID, theaterId, date, time, movieId, seats);
+    return Objects.hash(id, cinemaId, theaterId, date, time, movieId, seats);
   }
 
   @Override
@@ -219,7 +218,7 @@ public class Show   {
     sb.append("class Show {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    cinemaID: ").append(toIndentedString(cinemaID)).append("\n");
+    sb.append("    cinemaID: ").append(toIndentedString(cinemaId)).append("\n");
     sb.append("    theaterId: ").append(toIndentedString(theaterId)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    time: ").append(toIndentedString(time)).append("\n");

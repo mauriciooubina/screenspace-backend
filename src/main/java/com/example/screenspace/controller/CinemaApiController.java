@@ -3,6 +3,7 @@ package com.example.screenspace.controller;
 import com.example.screenspace.model.*;
 import com.example.screenspace.service.CinemaService;
 import com.example.screenspace.service.MovieService;
+import com.example.screenspace.service.ShowService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +35,15 @@ public class CinemaApiController implements CinemaApi {
     private final HttpServletRequest request;
     private final CinemaService cinemaService;
     private final MovieService movieService;
+    private final ShowService showService;
 
     @Autowired
-    public CinemaApiController(ObjectMapper objectMapper, HttpServletRequest request, CinemaService cinemaService, MovieService movieService) {
+    public CinemaApiController(ObjectMapper objectMapper, HttpServletRequest request, CinemaService cinemaService, MovieService movieService, ShowService showService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.cinemaService = cinemaService;
         this.movieService = movieService;
+        this.showService = showService;
     }
 
     public ResponseEntity<List<Cinema>> cinemaGet() {
@@ -47,6 +51,7 @@ public class CinemaApiController implements CinemaApi {
             List<Cinema> cinemas = cinemaService.getAllCinemas();
             return new ResponseEntity<>(cinemas, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,6 +62,7 @@ public class CinemaApiController implements CinemaApi {
             Optional<Cinema> cinema = cinemaService.getCinemaById(cinemaId);
             return new ResponseEntity<Cinema>(cinema.get(), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -111,11 +117,18 @@ public class CinemaApiController implements CinemaApi {
 
     public ResponseEntity<List<Cinema>> movieMovieIdCinemasGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("movieId") Integer movieId) {
-        Movie movie = movieService.getMovieById(movieId).get();
-        if (movie != null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        List<Integer> cinemasId = new ArrayList<>();
+        List<Cinema> cinemas = new ArrayList<>();
+        List<Show> shows = showService.getAllShows();
+        for(Show show : shows){
+            if(show.getMovieId().equals(movieId)){
+                cinemasId.add(show.getCinemaId());
+            }
         }
-        List<Cinema> cinemas = cinemaService.getCinemasFromMovieId(movieId);
+        for(Integer id : cinemasId){
+            Cinema cinema = cinemaService.getCinemaById(id).get();
+            cinemas.add(cinema);
+        }
         return new ResponseEntity<>(cinemas, HttpStatus.OK);
     }
 

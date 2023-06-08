@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
 
@@ -18,7 +20,7 @@ import javax.validation.constraints.*;
 @Entity
 public class User   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
@@ -40,7 +42,6 @@ public class User   {
    * @return id
    **/
   @Schema(example = "11", required = true, description = "")
-      @NotNull
 
     public Integer getId() {
     return id;

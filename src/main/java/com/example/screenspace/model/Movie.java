@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,7 +22,7 @@ import javax.validation.constraints.*;
 @Entity
 public class Movie   {
   @Id
-  @NotNull
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
@@ -49,7 +51,6 @@ public class Movie   {
    * @return id
    **/
   @Schema(example = "11", required = true, description = "")
-      @NotNull
 
     public Integer getId() {
     return id;

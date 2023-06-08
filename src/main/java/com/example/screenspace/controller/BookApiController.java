@@ -50,7 +50,7 @@ public class BookApiController implements BookApi {
             Book book = new Book();
             book.setMovieId(movieId);
             book.setCinemaId(cinemaId);
-            book.setShowID(showId);
+            book.setShowId(showId);
             book.setUserId(body.getUserId());
             book.setDate(body.getDate());
             book.setTime(body.getTime());
