@@ -25,6 +25,9 @@ public class Book   {
   @JsonProperty("id")
   private Integer id = null;
 
+  @JsonProperty("movieId")
+  private Integer movieId = null;
+
   @JsonProperty("userId")
   private Integer userId = null;
 
@@ -60,6 +63,14 @@ public class Book   {
     this.id = id;
   }
 
+  public Integer getMovieId() {
+    return movieId;
+  }
+
+  public void setMovieId(Integer movieId) {
+    this.movieId = movieId;
+  }
+
   /**
    * Get userId
    * @return userId
@@ -79,6 +90,8 @@ public class Book   {
     this.cinemaId = cinemaId;
     return this;
   }
+
+
 
   /**
    * Get cinemaId

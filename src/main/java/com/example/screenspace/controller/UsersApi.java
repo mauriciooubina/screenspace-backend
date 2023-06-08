@@ -21,11 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.processing.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 @Validated
 public interface UsersApi {
 
@@ -40,6 +41,18 @@ public interface UsersApi {
     ResponseEntity<List<User>> usersGet();
 
 
+    @Operation(summary = "Get a user from id", description = "", tags={ "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+
+            @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/users/{userId}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<User> usersUserIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    )) @PathVariable("userId") Integer userId);
+
+
     @Operation(summary = "Creates a new user", description = "", tags={ "User" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "201", description = "User created") })
@@ -47,30 +60,6 @@ public interface UsersApi {
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> usersPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body);
-
-
-    @Operation(summary = "Delete a user from id", description = "", tags={ "User" })
-    @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
-        
-        @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
-    @RequestMapping(value = "/users/{userId}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<User> usersUserIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-)) @PathVariable("userId") Integer userId);
-
-
-    @Operation(summary = "Get a user from id", description = "", tags={ "User" })
-    @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
-        
-        @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
-    @RequestMapping(value = "/users/{userId}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<User> usersUserIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-)) @PathVariable("userId") Integer userId);
 
 
     @Operation(summary = "Editar a user from id", description = "", tags={ "User" })
@@ -83,8 +72,21 @@ public interface UsersApi {
     @RequestMapping(value = "/users/{userId}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<User> usersUserIdPut(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-)) @PathVariable("userId") Integer userId);
+    ResponseEntity<User> usersUserIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1")) @PathVariable("userId") Integer userId,
+    @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody User body);
+
+
+    @Operation(summary = "Delete a user from id", description = "", tags={ "User" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+
+            @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/users/{userId}",
+            produces = { "application/json" },
+            method = RequestMethod.DELETE)
+    ResponseEntity<User> usersUserIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    )) @PathVariable("userId") Integer userId);
+
 
 }
 

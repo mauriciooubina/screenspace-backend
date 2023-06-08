@@ -24,6 +24,14 @@ public class UsersService {
         return usersRepository.findById(userId);
     }
 
+    public User getUserByEmailAndPass(String email, String pass) {
+        return usersRepository.findByEmailAndPassword(email,pass);
+    }
+
+    public User getUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
     public User createUser(User user) {
         return usersRepository.save(user);
     }

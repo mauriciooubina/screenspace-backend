@@ -20,6 +20,10 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    public List<Review> getReviewsFromMovieId(int movieId) {
+        return reviewRepository.findAllByMovieId(movieId);
+    }
+
     public Optional<Review> getReviewById(Integer reviewId) {
         return reviewRepository.findById(reviewId);
     }

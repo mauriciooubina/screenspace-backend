@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.processing.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 @RestController
 public class UsersApiController implements UsersApi {
 
@@ -42,59 +44,59 @@ public class UsersApiController implements UsersApi {
             List<User> users = usersService.getAllUsers();
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error occurred while retrieving users: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    public ResponseEntity<User> usersUserIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    )) @PathVariable("userId") Integer userId) {
+        try {
+            Optional<User> user = usersService.getUserById(userId);
+            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     public ResponseEntity<Void> usersPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody User body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        try {
+            String email = body.getEmail();
+            if (usersService.getUserByEmail(email) != null) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setPassword(body.getPassword());
+            usersService.createUser(newUser);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    public ResponseEntity<User> usersUserIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1")) @PathVariable("userId") Integer userId,
+        @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody User body) {
+        Optional<User> optionalUser = usersService.getUserById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setEmail(body.getEmail());
+            user.setPassword(body.getPassword());
+            usersService.updateUser(user.getId(), user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ResponseEntity<User> usersUserIdDelete(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("userId") Integer userId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"password\" : \"juanperez\",\n  \"id\" : 11,\n  \"email\" : \"juanperez@gmail.com\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        Optional<User> user = usersService.getUserById(userId);
+        if (user != null) {
+            usersService.deleteUser(userId);
+            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
         }
-
-        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<User> usersUserIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
-    )) @PathVariable("userId") Integer userId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"password\" : \"juanperez\",\n  \"id\" : 11,\n  \"email\" : \"juanperez@gmail.com\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    public ResponseEntity<User> usersUserIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the user to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
-    )) @PathVariable("userId") Integer userId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"password\" : \"juanperez\",\n  \"id\" : 11,\n  \"email\" : \"juanperez@gmail.com\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
