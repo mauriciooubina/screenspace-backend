@@ -49,6 +49,7 @@ public interface AuthApi {
         method = RequestMethod.POST)
     ResponseEntity<Void> loginPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body);
 
+
     @Operation(summary = "Reset password", description = "", tags={ "Password Reset" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created") })
