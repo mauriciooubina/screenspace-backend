@@ -16,6 +16,6 @@ ENV DB_NAME screenspace
 ENV DB_USER admin
 ENV DB_PASSWORD screenspace
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -X
 
 CMD ["java", "-jar", "target/screenspace-backend.jar"]
