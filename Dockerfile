@@ -6,6 +6,8 @@ COPY pom.xml .
 
 RUN mvn dependency:go-offline -B
 
+RUN rm -rf target
+
 COPY src ./src
 
 ENV DB_HOST database-screenspace-instance-1.cfo9syysrsej.us-east-2.rds.amazonaws.com
