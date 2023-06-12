@@ -1,10 +1,12 @@
-FROM maven:3.8.4-openjdk-8-slim
+FROM openjdk:8-jdk-alpine
 
 WORKDIR /app
 
 COPY pom.xml .
 
-RUN mvn dependency:go-offline -B
+RUN apk add --no-cache curl && \
+    curl -L "https://github.com/swagger-api/swagger-codegen/releases/download/v3.0.0/swagger-codegen-cli-3.0.0.jar" -o swagger-codegen-cli.jar && \
+    mvn dependency:go-offline -B
 
 COPY src ./src
 
