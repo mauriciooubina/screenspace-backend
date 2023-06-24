@@ -4,12 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+
+import org.hibernate.annotations.Columns;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -32,15 +31,18 @@ public class MovieTheater   {
   @JsonProperty("name")
   private String name = null;
 
+  @Column(name = "num_rows")
   @JsonProperty("rows")
   private BigDecimal rows = null;
 
+  @Column(name = "num_columns")
   @JsonProperty("columns")
   private BigDecimal columns = null;
 
   @JsonProperty("price")
   private BigDecimal price = null;
 
+  @Column(name = "temporarily_closed")
   @JsonProperty("temporalyClosed")
   private Boolean temporalyClosed = null;
 
