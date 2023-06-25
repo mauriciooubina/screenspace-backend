@@ -66,7 +66,7 @@ public class AuthApiController implements AuthApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> passwordResetPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body) {
+    public ResponseEntity<Void> passwordResetPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=false, hidden = true, schema=@Schema()) @Valid @RequestBody(required = false) User body) {
         String email = body.getEmail();
         User user = usersService.getUserByEmail(email);
         if(user != null){

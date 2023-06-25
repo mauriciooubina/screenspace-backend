@@ -65,7 +65,7 @@ public interface AuthApi {
     @RequestMapping(value = "/password/reset",
             consumes = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<Void> passwordResetPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body);
+    ResponseEntity<Void> passwordResetPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=false, hidden = true, schema=@Schema()) @Valid @RequestBody(required = false) User body);
 
 
 }

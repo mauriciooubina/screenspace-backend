@@ -28,7 +28,6 @@ public class User   {
   @JsonProperty("email")
   private String email = null;
 
-  @NotNull
   @JsonProperty("password")
   private String password = null;
 
@@ -81,7 +80,7 @@ public class User   {
    * @return password
    **/
   @Schema(example = "juanperez", required = true, description = "")
-      @NotNull
+
 
     public String getPassword() {
     return password;
