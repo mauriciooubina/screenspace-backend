@@ -16,10 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.processing.Generated;
 import javax.validation.Valid;
@@ -38,7 +35,7 @@ public interface CinemaApi {
     @RequestMapping(value = "/cinema",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<List<Cinema>> cinemaGet();
+    ResponseEntity<List<Cinema>> cinemaGet(@RequestParam(required = false) Integer userId);
 
 
     @Operation(summary = "Get a cinema from id", description = "", tags={ "Cinema" })

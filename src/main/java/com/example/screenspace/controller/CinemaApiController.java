@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 @RestController
@@ -46,9 +48,14 @@ public class CinemaApiController implements CinemaApi {
         this.showService = showService;
     }
 
-    public ResponseEntity<List<Cinema>> cinemaGet() {
+    public ResponseEntity<List<Cinema>> cinemaGet(@RequestParam(required = false) Integer userId) {
         try {
             List<Cinema> cinemas = cinemaService.getAllCinemas();
+            if(userId != null){
+                List<Cinema> userCinemas = cinemas.stream().filter(cinema -> cinema.getUserId().equals(userId))
+                        .collect(Collectors.toList());
+                return new ResponseEntity<>(userCinemas, HttpStatus.OK);
+            }
             return new ResponseEntity<>(cinemas, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,6 +87,7 @@ public class CinemaApiController implements CinemaApi {
         cinema.setLatitude(body.getLatitude());
         cinema.setLongitude(body.getLongitude());
         cinema.setCompany(body.getCompany());
+        cinema.setUserId(body.getUserId());
         cinemaService.createCinema(cinema);
         return new ResponseEntity<>(cinema, HttpStatus.CREATED);
     }
@@ -100,6 +108,7 @@ public class CinemaApiController implements CinemaApi {
         cinema.setLatitude(body.getLatitude());
         cinema.setLongitude(body.getLongitude());
         cinema.setCompany(body.getCompany());
+        cinema.setUserId(body.getUserId());
         cinemaService.updateCinema(cinemaId, cinema);
         return new ResponseEntity<>(cinema, HttpStatus.OK);
     }

@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -55,6 +52,10 @@ public class Cinema   {
 
   @JsonProperty("company")
   private String company = null;
+
+  @Column(name = "user_id")
+  @JsonProperty("userId")
+  private Integer userId = null;
 
   public Cinema id(Integer id) {
     this.id = id;
@@ -274,6 +275,25 @@ public class Cinema   {
 
   public void setCompany(String company) {
     this.company = company;
+  }
+
+  public Cinema userId(Integer userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * Get userId
+   * @return id
+   **/
+  @Schema(example = "1", required = true, description = "")
+
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 
 
