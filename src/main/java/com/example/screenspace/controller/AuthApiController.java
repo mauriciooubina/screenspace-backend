@@ -44,14 +44,14 @@ public class AuthApiController implements AuthApi {
         return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
     }
 
-    public ResponseEntity<Void> loginPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body) {
+    public ResponseEntity<User> loginPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body) {
         String email = body.getEmail();
         String pass = body.getPassword();
         User user = usersService.getUserByEmailAndPass(email, pass);
         if(user != null){
-            return new ResponseEntity<Void>(HttpStatus.CREATED);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         }
-        return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<Void> passwordResetNewPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody User body) {
