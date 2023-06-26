@@ -75,7 +75,6 @@ public class MovieTheater   {
    * @return cinemaId
    **/
   @Schema(example = "1", required = true, description = "")
-      @NotNull
 
     public Integer getCinemaId() {
     return cinemaId;
