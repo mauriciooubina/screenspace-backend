@@ -1,10 +1,7 @@
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Cinema;
-import com.example.screenspace.model.Movie;
-import com.example.screenspace.model.Show;
-import com.example.screenspace.service.CinemaService;
-import com.example.screenspace.service.ShowService;
+import com.example.screenspace.model.Shows;
+import com.example.screenspace.service.ShowsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -22,45 +19,47 @@ import javax.annotation.processing.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 @RestController
-public class ShowApiController implements ShowApi {
+public class ShowsApiController implements ShowsApi {
 
-    private static final Logger log = LoggerFactory.getLogger(ShowApiController.class);
+    private static final Logger log = LoggerFactory.getLogger(ShowsApiController.class);
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
-    private final ShowService showService;
+    private final ShowsService showsService;
 
     @Autowired
-    public ShowApiController(ObjectMapper objectMapper, HttpServletRequest request, ShowService showService) {
+    public ShowsApiController(ObjectMapper objectMapper, HttpServletRequest request, ShowsService showsService) {
         this.objectMapper = objectMapper;
         this.request = request;
-        this.showService = showService;
+        this.showsService = showsService;
     }
 
 
-    public ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    public ResponseEntity<List<Shows>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("theaterId") Integer theaterId) {
         try {
-            List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
-            return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
+            List<Shows> showsList = showsService.getAllShows();
+            List<Shows> shows = showsList.stream().filter(s -> s.getCinemaId().equals(cinemaId) && s.getTheaterId().equals(theaterId))
+                    .collect(Collectors.toList());
+            return new ResponseEntity<List<Shows>>(shows, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<List<Shows>>(HttpStatus.NOT_FOUND);
         }
     }
 
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    public ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("showId") Integer showId) {
-        List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
-        for (Show show : shows) {
+        List<Shows> shows = showsService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
+        for (Shows show : shows) {
             if (show.getId().equals(showId)) {
                 return new ResponseEntity<>(show, HttpStatus.OK);
             }
@@ -68,59 +67,59 @@ public class ShowApiController implements ShowApi {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    public ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
-    )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody Show body) {
-        Show show = new Show();
-        show.setCinemaID(cinemaId);
-        show.setTheaterId(theaterId);
-        show.setDate(body.getDate());
-        show.setTime(body.getTime());
-        show.setMovieId(body.getMovieId());
-        show.setSeats(body.getSeats());
-        showService.createShow(show);
-        return new ResponseEntity<>(show, HttpStatus.CREATED);
+    )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody Shows body) {
+        Shows shows = new Shows();
+        shows.setCinemaId(cinemaId);
+        shows.setTheaterId(theaterId);
+        shows.setDate(body.getDate());
+        shows.setTime(body.getTime());
+        shows.setMovieId(body.getMovieId());
+        shows.setSeats(body.getSeats());
+        showsService.createShow(shows);
+        return new ResponseEntity<>(shows, HttpStatus.CREATED);
     }
 
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    public ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
     @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
     @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
-    @PathVariable("showId") Integer showId, @RequestBody Show body)  {
-        Show show = showService.getShowById(showId).get();
-        show.setCinemaID(cinemaId);
-        show.setTheaterId(theaterId);
-        show.setDate(body.getDate());
-        show.setTime(body.getTime());
-        show.setMovieId(body.getMovieId());
-        show.setSeats(body.getSeats());
-        showService.updateShow(show.getId(), show);
-        return new ResponseEntity<>(show, HttpStatus.OK);
+    @PathVariable("showId") Integer showId, @RequestBody Shows body)  {
+        Shows shows = showsService.getShowById(showId).get();
+        shows.setCinemaId(cinemaId);
+        shows.setTheaterId(theaterId);
+        shows.setDate(body.getDate());
+        shows.setTime(body.getTime());
+        shows.setMovieId(body.getMovieId());
+        shows.setSeats(body.getSeats());
+        showsService.updateShow(shows.getId(), shows);
+        return new ResponseEntity<>(shows, HttpStatus.OK);
     }
 
-    public ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    public ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("showId") Integer showId) {
         try {
-            Show show = showService.getShowById(showId).get();
-            showService.deleteShow(showId);
-            return new ResponseEntity<>(show, HttpStatus.OK);
+            Shows shows = showsService.getShowById(showId).get();
+            showsService.deleteShow(showId);
+            return new ResponseEntity<>(shows, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
 
-    public ResponseEntity<List<Show>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
+    public ResponseEntity<List<Shows>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("movieId") Integer movieId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("cinemaId") Integer cinemaId) {
         try {
-            List<Show> shows = showService.getAllShowsByMovieAndCinemaId(movieId, cinemaId);
-            return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
+            List<Shows> shows = showsService.getAllShowsByMovieAndCinemaId(movieId, cinemaId);
+            return new ResponseEntity<List<Shows>>(shows, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<List<Show>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<List<Shows>>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -3,7 +3,7 @@ package com.example.screenspace.controller;
 import com.example.screenspace.model.*;
 import com.example.screenspace.service.CinemaService;
 import com.example.screenspace.service.MovieService;
-import com.example.screenspace.service.ShowService;
+import com.example.screenspace.service.ShowsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -22,7 +22,6 @@ import javax.annotation.processing.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,15 +36,15 @@ public class CinemaApiController implements CinemaApi {
     private final HttpServletRequest request;
     private final CinemaService cinemaService;
     private final MovieService movieService;
-    private final ShowService showService;
+    private final ShowsService showsService;
 
     @Autowired
-    public CinemaApiController(ObjectMapper objectMapper, HttpServletRequest request, CinemaService cinemaService, MovieService movieService, ShowService showService) {
+    public CinemaApiController(ObjectMapper objectMapper, HttpServletRequest request, CinemaService cinemaService, MovieService movieService, ShowsService showsService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.cinemaService = cinemaService;
         this.movieService = movieService;
-        this.showService = showService;
+        this.showsService = showsService;
     }
 
     public ResponseEntity<List<Cinema>> cinemaGet(@RequestParam(required = false) Integer userId) {
@@ -128,8 +127,8 @@ public class CinemaApiController implements CinemaApi {
     )) @PathVariable("movieId") Integer movieId) {
         List<Integer> cinemasId = new ArrayList<>();
         List<Cinema> cinemas = new ArrayList<>();
-        List<Show> shows = showService.getAllShows();
-        for(Show show : shows){
+        List<Shows> shows = showsService.getAllShows();
+        for(Shows show : shows){
             if(show.getMovieId().equals(movieId)){
                 cinemasId.add(show.getCinemaId());
             }

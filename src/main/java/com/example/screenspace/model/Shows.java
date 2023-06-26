@@ -18,33 +18,37 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 
 @Entity
-public class Show   {
+public class Shows {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
   private Integer id = null;
 
+  @Column(name = "cinema_id")
   @JsonProperty("cinemaId")
   private Integer cinemaId = null;
 
+  @Column(name = "theater_id")
   @JsonProperty("theaterId")
   private Integer theaterId = null;
 
+  @Column(name = "show_date")
   @JsonProperty("date")
   private String date = null;
 
+  @Column(name = "show_time")
   @JsonProperty("time")
   private String time = null;
 
+  @Column(name = "movie_id")
   @JsonProperty("movieId")
   private Integer movieId = null;
 
   @JsonProperty("seats")
-  @ElementCollection
   @Valid
-  private List<String> seats = new ArrayList<String>();
+  private Integer seats = null;
 
-  public Show id(Integer id) {
+  public Shows id(Integer id) {
     this.id = id;
     return this;
   }
@@ -63,7 +67,7 @@ public class Show   {
     this.id = id;
   }
 
-  public Show cinemaId(Integer cinemaId) {
+  public Shows cinemaId(Integer cinemaId) {
     this.cinemaId = cinemaId;
     return this;
   }
@@ -79,11 +83,11 @@ public class Show   {
     return cinemaId;
   }
 
-  public void setCinemaID(Integer cinemaId) {
+  public void setCinemaId(Integer cinemaId) {
     this.cinemaId = cinemaId;
   }
 
-  public Show theaterId(Integer theaterId) {
+  public Shows theaterId(Integer theaterId) {
     this.theaterId = theaterId;
     return this;
   }
@@ -103,7 +107,7 @@ public class Show   {
     this.theaterId = theaterId;
   }
 
-  public Show date(String date) {
+  public Shows date(String date) {
     this.date = date;
     return this;
   }
@@ -123,7 +127,7 @@ public class Show   {
     this.date = date;
   }
 
-  public Show time(String time) {
+  public Shows time(String time) {
     this.time = time;
     return this;
   }
@@ -143,7 +147,7 @@ public class Show   {
     this.time = time;
   }
 
-  public Show movieId(Integer movieId) {
+  public Shows movieId(Integer movieId) {
     this.movieId = movieId;
     return this;
   }
@@ -163,13 +167,8 @@ public class Show   {
     this.movieId = movieId;
   }
 
-  public Show seats(List<String> seats) {
+  public Shows seats(Integer seats) {
     this.seats = seats;
-    return this;
-  }
-
-  public Show addSeatsItem(String seatsItem) {
-    this.seats.add(seatsItem);
     return this;
   }
 
@@ -180,11 +179,11 @@ public class Show   {
   @Schema(required = true, description = "")
       @NotNull
 
-    public List<String> getSeats() {
+    public Integer getSeats() {
     return seats;
   }
 
-  public void setSeats(List<String> seats) {
+  public void setSeats(Integer seats) {
     this.seats = seats;
   }
 
@@ -197,14 +196,14 @@ public class Show   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Show show = (Show) o;
-    return Objects.equals(this.id, show.id) &&
-        Objects.equals(this.cinemaId, show.cinemaId) &&
-        Objects.equals(this.theaterId, show.theaterId) &&
-        Objects.equals(this.date, show.date) &&
-        Objects.equals(this.time, show.time) &&
-        Objects.equals(this.movieId, show.movieId) &&
-        Objects.equals(this.seats, show.seats);
+    Shows shows = (Shows) o;
+    return Objects.equals(this.id, shows.id) &&
+        Objects.equals(this.cinemaId, shows.cinemaId) &&
+        Objects.equals(this.theaterId, shows.theaterId) &&
+        Objects.equals(this.date, shows.date) &&
+        Objects.equals(this.time, shows.time) &&
+        Objects.equals(this.movieId, shows.movieId) &&
+        Objects.equals(this.seats, shows.seats);
   }
 
   @Override

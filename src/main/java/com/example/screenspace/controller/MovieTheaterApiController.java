@@ -1,10 +1,6 @@
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Cinema;
-import com.example.screenspace.model.Movie;
 import com.example.screenspace.model.MovieTheater;
-import com.example.screenspace.model.Show;
-import com.example.screenspace.service.CinemaService;
 import com.example.screenspace.service.MovieTheaterService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,8 +19,6 @@ import javax.annotation.processing.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")

@@ -1,11 +1,9 @@
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Book;
-import com.example.screenspace.model.Cinema;
 import com.example.screenspace.model.Movie;
-import com.example.screenspace.model.Show;
+import com.example.screenspace.model.Shows;
 import com.example.screenspace.service.MovieService;
-import com.example.screenspace.service.ShowService;
+import com.example.screenspace.service.ShowsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -17,13 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.processing.Generated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,14 +31,14 @@ public class MovieApiController implements MovieApi {
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
     private final MovieService movieService;
-    private final ShowService showService;
+    private final ShowsService showsService;
 
     @Autowired
-    public MovieApiController(ObjectMapper objectMapper, HttpServletRequest request, MovieService movieService, ShowService showService) {
+    public MovieApiController(ObjectMapper objectMapper, HttpServletRequest request, MovieService movieService, ShowsService showsService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.movieService = movieService;
-        this.showService = showService;
+        this.showsService = showsService;
     }
 
 
@@ -75,8 +70,8 @@ public class MovieApiController implements MovieApi {
     )) @PathVariable("showId") Integer showId) {
         try {
             List<Integer> moviesId = new ArrayList<>();
-            List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
-            for (Show show : shows) {
+            List<Shows> shows = showsService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
+            for (Shows show : shows) {
                 if (show.getId().equals(showId)) {
                     moviesId.add(show.getMovieId());
                 }
@@ -98,8 +93,8 @@ public class MovieApiController implements MovieApi {
     )) @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater shows to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"
     )) @PathVariable("showId") Integer showId) {
         List<Integer> moviesId = new ArrayList<>();
-        List<Show> shows = showService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
-        for (Show show : shows) {
+        List<Shows> shows = showsService.getAllShowsByCinemaAndTheaterId(cinemaId, theaterId);
+        for (Shows show : shows) {
             if (show.getId().equals(showId)) {
                 moviesId.add(show.getMovieId());
             }

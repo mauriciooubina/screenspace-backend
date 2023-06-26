@@ -5,9 +5,7 @@
  */
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Cinema;
-import com.example.screenspace.model.Movie;
-import com.example.screenspace.model.Show;
+import com.example.screenspace.model.Shows;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -30,31 +28,31 @@ import java.util.List;
 
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-25T13:49:06.606500-03:00[America/Argentina/Buenos_Aires]")
 @Validated
-public interface ShowApi {
+public interface ShowsApi {
 
 
     @Operation(summary = "Get list of all shows from a movie theater", description = "", tags={ "Shows" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Show.class)))),
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Shows.class)))),
 
             @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<List<Show>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<List<Shows>> cinemaCinemaIdMovieTheaterTheaterIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("theaterId") Integer theaterId);
 
 
     @Operation(summary = "Get a show from a movie theater", description = "", tags={ "Shows" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Show.class))),
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Shows.class))),
 
             @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows/{showId}",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("theaterId") Integer theaterId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("showId") Integer showId);
@@ -62,41 +60,41 @@ public interface ShowApi {
 
     @Operation(summary = "Create a show", description = "", tags={ "Shows" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Show.class)))),
+            @ApiResponse(responseCode = "201", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Shows.class)))),
 
             @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows",
             produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsPost(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
-    )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Show body);
+    )) @PathVariable("theaterId") Integer theaterId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Shows body);
 
 
     @Operation(summary = "Edit a show for a movie theater", description = "", tags={ "Shows" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Show.class))),
+            @ApiResponse(responseCode = "201", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Shows.class))),
 
             @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows/{showId}",
             produces = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
+    ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdPut(@Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
     @PathVariable("cinemaId") Integer cinemaId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
     @PathVariable("theaterId") Integer theaterId, @Min(1) @Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required = true, schema = @Schema(allowableValues = {}, minimum = "1"))
-    @PathVariable("showId") Integer showId, @RequestBody Show body);
+    @PathVariable("showId") Integer showId, @RequestBody Shows body);
 
 
     @Operation(summary = "Delete a show for a movie theater", description = "", tags={ "Shows" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Show.class))),
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Shows.class))),
 
             @ApiResponse(responseCode = "404", description = "Error 404 not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))) })
     @RequestMapping(value = "/cinema/{cinemaId}/movie-theater/{theaterId}/shows/{showId}",
             produces = { "application/json" },
             method = RequestMethod.DELETE)
-    ResponseEntity<Show> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<Shows> cinemaCinemaIdMovieTheaterTheaterIdShowsShowIdDelete(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("theaterId") Integer theaterId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the show of a movie theater to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("showId") Integer showId);
@@ -104,11 +102,11 @@ public interface ShowApi {
 
     @Operation(summary = "Get the shows available for a movie in a movie theater", description = "", tags={ "Shows for a movie of a cinema" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Show.class)))) })
+            @ApiResponse(responseCode = "200", description = "Succesfull request", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Shows.class)))) })
     @RequestMapping(value = "/movie/{movieId}/cinemas/{cinemaId}/shows",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<List<Show>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
+    ResponseEntity<List<Shows>> movieMovieIdCinemasCinemaIdShowsGet(@Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the movie to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("movieId") Integer movieId, @Min(1)@Parameter(in = ParameterIn.PATH, description = "The ID of the cinema to return.", required=true, schema=@Schema(allowableValues={  }, minimum="1"
     )) @PathVariable("cinemaId") Integer cinemaId);
 

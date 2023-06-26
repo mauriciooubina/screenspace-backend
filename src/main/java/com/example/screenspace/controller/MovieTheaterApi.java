@@ -5,10 +5,7 @@
  */
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Cinema;
-import com.example.screenspace.model.Movie;
 import com.example.screenspace.model.MovieTheater;
-import com.example.screenspace.model.Show;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

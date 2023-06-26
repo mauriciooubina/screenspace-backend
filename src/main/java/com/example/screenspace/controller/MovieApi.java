@@ -5,10 +5,7 @@
  */
 package com.example.screenspace.controller;
 
-import com.example.screenspace.model.Book;
-import com.example.screenspace.model.Cinema;
 import com.example.screenspace.model.Movie;
-import com.example.screenspace.model.Show;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -20,12 +17,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.processing.Generated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
